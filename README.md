@@ -59,3 +59,18 @@ node skills\yj-video-comic\scripts\selftest.mjs
 
 测试会生成临时视频，并验证转码、视频元数据读取、配置注入和静态网站输出。
 
+## 联系方式
+
+欢迎添加微信或加入“遇见AI交流群”，交流 AI 视频与互动漫画制作。
+
+<table>
+  <tr>
+    <td align="center"><strong>微信</strong></td>
+    <td align="center"><strong>QQ 群：108894549</strong></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/contact/wechat.jpg" alt="遇见AI微信二维码" width="360"></td>
+    <td align="center"><img src="assets/contact/qq-group.jpg" alt="遇见AI交流群 QQ 群二维码，群号 108894549" width="360"></td>
+  </tr>
+</table>
+
