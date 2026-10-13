@@ -3,6 +3,11 @@ work/
 node_modules/
 dist/
 output/
+analysis-frames/
+dist-robot-*/
+validation-evidence/
+manifest-robot-*.json
+/scripts/
 *.log
 .DS_Store
 Thumbs.db
