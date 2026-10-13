@@ -1,0 +1,22 @@
+import { spawnSync } from 'node:child_process';
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { tmpdir } from 'node:os';
+import { fileURLToPath } from 'node:url';
+
+const here = resolve(fileURLToPath(new URL('.', import.meta.url)));
+const tmp = mkdtempSync(join(tmpdir(), 'video-comic-test-'));
+const input = join(tmp, 'input'); mkdirSync(input);
+const video = join(input, '01.mp4');
+let r = spawnSync('ffmpeg', ['-y', '-f', 'lavfi', '-i', 'testsrc2=size=320x240:rate=12', '-t', '1', '-pix_fmt', 'yuv420p', video], { stdio: 'ignore', windowsHide: true });
+if (r.status !== 0) throw new Error('selftest 需要 PATH 中可用的 ffmpeg');
+const manifest = join(input, 'manifest.json');
+writeFileSync(manifest, JSON.stringify({ title: '测试漫画', theme: '测试主题', panels: [{ video: '01.mp4', caption: '测试画面。' }] }), 'utf8');
+const out = join(tmp, 'out');
+r = spawnSync(process.execPath, [join(here, 'build-comic.mjs'), '--manifest', manifest, '--out', out], { encoding: 'utf8', windowsHide: true });
+if (r.status !== 0) throw new Error(`生成失败\n${r.stdout}\n${r.stderr}`);
+const html = readFileSync(join(out, 'index.html'), 'utf8');
+const data = JSON.parse(readFileSync(join(out, 'comic.json'), 'utf8'));
+if (!html.includes('测试漫画') || html.includes('__COMIC_DATA__')) throw new Error('模板数据未正确注入');
+if (data.panels.length !== 1 || data.panels[0].duration <= 0) throw new Error('视频元数据错误');
+console.log('selftest 通过：转码、数据注入和静态网站输出正常');

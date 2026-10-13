@@ -1,0 +1,9 @@
+.venv/
+work/
+node_modules/
+dist/
+output/
+*.log
+.DS_Store
+Thumbs.db
+
